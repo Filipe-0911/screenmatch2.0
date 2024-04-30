@@ -8,6 +8,7 @@ import br.com.alura.screenmatch.repository.SerieRepository;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.GetApiKey;
 import br.com.alura.screenmatch.service.ConverteDados;
+import br.com.alura.screenmatch.model.Categoria;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,12 +40,16 @@ public class Principal {
     public void exibeMenu() {
         var opcao = -1;
         while (opcao != 0) {
+            System.out.println();
             var menu = """
                     1 - Buscar séries
                     2 - Buscar episódios
                     3 - Listar séries buscadas
                     4 - Buscar série por título
                     5 - Buscar Série por ator
+                    6 - Top 5 Séries
+                    7 - Buscar Séries por Categoria
+
                     0 - Sair
                     """;
 
@@ -68,6 +73,12 @@ public class Principal {
                 case 5:
                     buscarSeriePorAtor();
                     break;
+                case 6:
+                    buscarTop5Series();
+                    break;
+                case 7:
+                    buscarSeriesPorCategoria();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -76,6 +87,15 @@ public class Principal {
             }
 
         }
+    }
+
+
+    private void buscarTop5Series() {
+        List<Serie> listaSeriesTop = repositorio.findTop5ByOrderByAvaliacaoDesc();
+
+        listaSeriesTop.forEach(s -> System.out.println(
+            "Nome: %s; Avaliação: %.2f".formatted(s.getTitulo(), s.getAvaliacao())
+        ));
     }
 
     private void buscarSeriePorAtor() {
@@ -170,6 +190,19 @@ public class Principal {
             System.out.println("Série não encontrada!");
         }
 
+
+    }
+
+    private void buscarSeriesPorCategoria() {
+        System.out.println("Deseja buscar séries de que categoria / genero? ");
+        var nomeGenero = leitura.next();
+
+        Categoria categoria = Categoria.fromPortugues(nomeGenero);
+
+        List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
+        System.out.println("Séries da categoria %s: ".formatted(nomeGenero));
+
+        seriesPorCategoria.forEach(System.out::println);
 
     }
 
