@@ -1,5 +1,7 @@
 package br.com.alura.screenmatch.model;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
@@ -101,10 +103,20 @@ public class Episodio {
 
     @Override
     public String toString() {
-        return "temporada=" + temporada + "\n"
-        + "titulo='" + titulo + '\'' + "\n"
-        + "numeroEpisodio=" + numeroEpisodio + "\n"
-        + "avaliacao=" + avaliacao + "\n"
-        + "dataLancamento=" + dataLancamento;
+        String frase;
+        if(this.dataLancamento != null) {
+            Date date = Date.valueOf(this.dataLancamento);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy");
+            String data = formatter.format(date);
+    
+            frase = "Temporada: %d; Titulo: %s; Numero episódio: %d; Avaliação: %.2f; Data lançamento: %s\n"
+            .formatted(this.temporada, this.titulo, this.numeroEpisodio, this.avaliacao, data);
+
+        } else {
+            frase = "Temporada: %d; Titulo: %s; Numero episódio: %d; Avaliação: %.2f; Data lançamento: %s\n"
+            .formatted(this.temporada, this.titulo, this.numeroEpisodio, this.avaliacao, this.dataLancamento);
+        }
+
+        return frase;
     }
 }
