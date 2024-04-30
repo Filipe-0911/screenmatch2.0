@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,12 +30,13 @@ public class Serie {
     @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String atores;
+    
     private String poster;
     private String siponse;
-
-    @OneToMany(mappedBy = "serie")
-    private List<Episodio> episodio = new ArrayList<>();
-
+    
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Episodio> episodios = new ArrayList<>();
+    
     public Serie(DadosSerie dadosSerie) {
         this.titulo = dadosSerie.titulo();
         this.totalTemporadas = dadosSerie.totalTemporadas();
@@ -43,13 +46,13 @@ public class Serie {
         this.poster = dadosSerie.poster();
         this.siponse = dadosSerie.sinopse();
     }
-
+    
     public Serie() {}
-
+    
     public String getTitulo() {
         return titulo;
     }
-
+    
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
@@ -57,31 +60,31 @@ public class Serie {
     public Integer getTotalTemporadas() {
         return totalTemporadas;
     }
-
+    
     public void setTotalTemporadas(Integer totalTemporadas) {
         this.totalTemporadas = totalTemporadas;
     }
-
+    
     public Double getAvaliacao() {
         return avaliacao;
     }
-
+    
     public void setAvaliacao(Double avaliacao) {
         this.avaliacao = avaliacao;
     }
-
+    
     public Categoria getGenero() {
         return genero;
     }
-
+    
     public void setGenero(Categoria genero) {
         this.genero = genero;
     }
-
+    
     public String getAtores() {
         return atores;
     }
-
+    
     public void setAtores(String atores) {
         this.atores = atores;
     }
@@ -93,28 +96,37 @@ public class Serie {
     public void setPoster(String poster) {
         this.poster = poster;
     }
-
+    
     public String getSiponse() {
         return siponse;
     }
-
+    
     public void setSiponse(String siponse) {
         this.siponse = siponse;
     }
-
+    
     public Long getId() {
         return id;
     }
-
+    
     @Override
     public String toString() {
-        return  "genero=" + genero + ", titulo=" + titulo + ", totalTemporadas=" + totalTemporadas + ", avaliacao=" + avaliacao
-                + ", atores=" + atores + ", poster=" + poster + ", siponse=" + siponse + "]";
-    }
-
-    public List<Episodio> getEpisodio() {
-        return episodio;
+        return  "genero=" + genero + "\n"
+                + "titulo=" + titulo + "\n"
+                + "totalTemporadas=" + totalTemporadas + "\n"
+                + "avaliacao=" + avaliacao+ "\n"
+                + "atores=" + atores + "\n"
+                + "poster=" + poster + "\n"
+                + "siponse=" + siponse + "\n"
+                + "episodios=" + episodios+ "\n";
     }
     
-
+    public List<Episodio> getEpisodio() {
+        return episodios;
+    }
+    public void setEpisodio(List<Episodio> episodio) {
+        episodio.forEach(e -> e.setSerie(this));
+        this.episodios = episodio;
+    }
+    
 }

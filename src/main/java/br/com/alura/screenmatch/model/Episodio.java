@@ -22,11 +22,12 @@ public class Episodio {
     private String titulo;
     private Integer numeroEpisodio;
     private Double avaliacao;
-    
     private LocalDate dataLancamento;
 
     @ManyToOne
     private Serie serie;
+
+    public Episodio() {}
     
     public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
         this.temporada = numeroTemporada;
@@ -100,10 +101,10 @@ public class Episodio {
 
     @Override
     public String toString() {
-        return "temporada=" + temporada +
-        ", titulo='" + titulo + '\'' +
-        ", numeroEpisodio=" + numeroEpisodio +
-        ", avaliacao=" + avaliacao +
-        ", dataLancamento=" + dataLancamento ;
+        return "temporada=" + temporada + "\n"
+        + "titulo='" + titulo + '\'' + "\n"
+        + "numeroEpisodio=" + numeroEpisodio + "\n"
+        + "avaliacao=" + avaliacao + "\n"
+        + "dataLancamento=" + dataLancamento;
     }
 }
