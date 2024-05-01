@@ -118,7 +118,7 @@ public class Serie {
                 + "atores=" + atores + "\n"
                 + "poster=" + poster + "\n"
                 + "siponse=" + siponse + "\n"
-                + "episodios=" + episodios+ "\n";
+                + "episodios=" + __criaStringEpisodios(episodios);
     }
     
     public List<Episodio> getEpisodio() {
@@ -127,6 +127,17 @@ public class Serie {
     public void setEpisodio(List<Episodio> episodio) {
         episodio.forEach(e -> e.setSerie(this));
         this.episodios = episodio;
+    }
+
+    private String __criaStringEpisodios(List<Episodio> listaSeries) {
+        String texto = "";
+        
+        for(Episodio ep : listaSeries) {
+            texto += ep + ", " + "\n";
+        }
+
+
+        return texto;
     }
     
 }

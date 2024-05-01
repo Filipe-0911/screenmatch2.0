@@ -109,11 +109,11 @@ public class Episodio {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy");
             String data = formatter.format(date);
     
-            frase = "Temporada: %d; Titulo: %s; Numero episódio: %d; Avaliação: %.2f; Data lançamento: %s\n"
+            frase = "Temporada: %d; Titulo: %s; Numero episódio: %d; Avaliação: %.2f; Data lançamento: %s"
             .formatted(this.temporada, this.titulo, this.numeroEpisodio, this.avaliacao, data);
 
         } else {
-            frase = "Temporada: %d; Titulo: %s; Numero episódio: %d; Avaliação: %.2f; Data lançamento: %s\n"
+            frase = "Temporada: %d; Titulo: %s; Numero episódio: %d; Avaliação: %.2f; Data lançamento: %s"
             .formatted(this.temporada, this.titulo, this.numeroEpisodio, this.avaliacao, this.dataLancamento);
         }
 
