@@ -13,7 +13,9 @@ import java.util.Optional;
 
 public interface SerieRepository extends JpaRepository<Serie, Long>{
     Optional<Serie> findByTituloContainingIgnoreCase(String nomeSerie);
+
     Optional<Serie> findByTitulo(String novoNomeSerie);
+
     List<Serie> findAllByTituloContainingIgnoreCase(String nomeSerie);
     List<Serie> findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(String nomeAtor, Double avaliacao);
     List<Serie> findTop5ByOrderByAvaliacaoDesc();
@@ -35,10 +37,16 @@ public interface SerieRepository extends JpaRepository<Serie, Long>{
     @Query("select new br.com.alura.screenmatch.model.SerieEpisodioProjection(s.titulo, count(e)) from Serie s join s.episodios e group by s.titulo order by (count(e)) desc")
     List<SerieEpisodioProjection> quantidadeEpisodiosPorSerie();
 
+    @Query("SELECT e FROM Episodio e INNER JOIN e.serie s WHERE s.titulo = :nomeSerie")
+    List<Episodio> buscaEpisodiosQueASeriePossuiNoBanco(String nomeSerie);
+
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie order by e.avaliacao DESC LIMIT 5")
     List<Episodio> topEpisodiosPorSerie(Serie serie);
 
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie AND YEAR(e.dataLancamento) >= :anoLancamento")
     List<Episodio> episodiosPorSerieEAno(Serie serie, int anoLancamento);
+
+    @Query("select e FROM Episodio e WHERE e.titulo = :nomeEpisodio")
+    List<Optional<Episodio>> buscaEpisodioPorTitulo(String nomeEpisodio);
     
 }
