@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.alura.screenmatch.service.SerieService;
 import br.com.alura.screenmatch.DTO.EpisodioDTO;
 import br.com.alura.screenmatch.DTO.SerieDTO;
+import br.com.alura.screenmatch.model.Categoria;
 
 @RestController
 @RequestMapping("/series")
@@ -18,7 +19,6 @@ public class SerieCotroller {
 
     @Autowired
     private SerieService serieServico;
-
 
     @GetMapping
     public List<SerieDTO> obterSeries() {
@@ -35,7 +35,6 @@ public class SerieCotroller {
         return serieServico.obterSeriesMaisRecentes();
     }
 
-    
     @GetMapping("/{id}")
     public SerieDTO obterPorId(@PathVariable Long id) {
         return serieServico.obterPorId(id);
@@ -45,9 +44,19 @@ public class SerieCotroller {
     public List<EpisodioDTO> obterTodasAsTemporadas(@PathVariable Long id) {
         return serieServico.obterTodasAsTemporadasPorId(id);
     }
-    //http://localhost:8080/series/4/temporadas/2 
+
     @GetMapping("/{id}/temporadas/{numeroTemporada}")
     public List<EpisodioDTO> obterEpisodiosPorTemporada(@PathVariable Long id, @PathVariable int numeroTemporada) {
         return serieServico.obterEpisodiosPorNumero(id, numeroTemporada);
+    }
+
+    @GetMapping("/categoria/{nomeCategoria}")
+    public List<SerieDTO> obterSeriesPorCategoria(@PathVariable String nomeCategoria) {
+        return serieServico.obterSeriesPorCategoria(Categoria.fromPortugues(nomeCategoria));
+    }
+
+    @GetMapping("/{id}/temporadas/top")
+    public List<EpisodioDTO> obterTop5EpisodiosPorSeriePorId(@PathVariable Long id) {
+        return serieServico.obterTop5EpisodiosPorSeriePorId(id);
     }
 }

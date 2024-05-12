@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.alura.screenmatch.DTO.EpisodioDTO;
 import br.com.alura.screenmatch.DTO.SerieDTO;
+import br.com.alura.screenmatch.model.Categoria;
 import br.com.alura.screenmatch.model.Episodio;
 import br.com.alura.screenmatch.model.Serie;
 import br.com.alura.screenmatch.repository.SerieRepository;
@@ -50,16 +51,20 @@ public class SerieService {
         if (serieOpcional.isPresent()) {
             Serie s = serieOpcional.get();
             return __converteDadosEpisodio(s.getEpisodio());
-            
+
         } else {
             return null;
         }
     }
 
     public List<EpisodioDTO> obterEpisodiosPorNumero(Long id, Integer numeroTemporada) {
-        List<Episodio> listaEpisodios = serieRepositorio.buscaEpisodiosQueASeriePossuiNoBancoPorId(id, numeroTemporada);
+        List<Episodio> listaEpisodios = serieRepositorio.buscaEpisodiosQueASeriePossuiNoBancoPorIdENumero(id, numeroTemporada);
 
         return __converteDadosEpisodio(listaEpisodios);
+    }
+    
+    public List<SerieDTO> obterSeriesPorCategoria(Categoria categoria) {
+        return __converteDados(serieRepositorio.findByGenero(categoria));
     }
 
     private List<SerieDTO> __converteDados(List<Serie> series) {
@@ -71,8 +76,13 @@ public class SerieService {
 
     private List<EpisodioDTO> __converteDadosEpisodio(List<Episodio> episodios) {
         return episodios.stream()
-                .map(e -> new EpisodioDTO(e.getTemporada(), e.getTitulo(), e.getNumeroEpisodio()))
+                .map(e -> new EpisodioDTO(e.getTemporada(), e.getTitulo(), e.getNumeroEpisodio(), e.getAvaliacao()))
                 .collect(Collectors.toList());
     }
+
+    public List<EpisodioDTO> obterTop5EpisodiosPorSeriePorId(Long id) {
+        return __converteDadosEpisodio(serieRepositorio.topEpisodiosPorSeriePorId(id));
+    }
+
 
 }

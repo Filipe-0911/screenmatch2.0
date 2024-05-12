@@ -6,7 +6,8 @@ public enum Categoria {
     COMEDIA ("Comedy", "Comédia"),
     DRAMA ("Drama", "Drama"),
     CRIME ("Crime","Crime"),
-    BIOGRAFIA ("Biography","Biografia");
+    BIOGRAFIA ("Biography","Biografia"),
+    AVENTURA("Adventure", "Aventura");
 
     private String categoriaOmdb;
     private String categoriaPortugues;
