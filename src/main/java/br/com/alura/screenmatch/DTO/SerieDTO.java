@@ -1,5 +1,16 @@
 package br.com.alura.screenmatch.DTO;
 
-public record SerieDTO {
+import br.com.alura.screenmatch.model.Categoria;
+
+public record SerieDTO(
+        Long id,
+        String titulo,
+        Integer totalTemporadas,
+        Double avaliacao,
+        Categoria genero,
+        String atores,
+        String poster,
+        String siponse
+        ) {
 
 }
