@@ -40,6 +40,9 @@ public interface SerieRepository extends JpaRepository<Serie, Long>{
     @Query("SELECT e FROM Episodio e INNER JOIN e.serie s WHERE s.titulo = :nomeSerie")
     List<Episodio> buscaEpisodiosQueASeriePossuiNoBanco(String nomeSerie);
 
+    @Query("SELECT e FROM Episodio e INNER JOIN e.serie s WHERE s.id = :id and e.temporada = :temporada")
+    List<Episodio> buscaEpisodiosQueASeriePossuiNoBancoPorId(Long id, Integer temporada);
+
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie order by e.avaliacao DESC LIMIT 5")
     List<Episodio> topEpisodiosPorSerie(Serie serie);
 
@@ -48,5 +51,16 @@ public interface SerieRepository extends JpaRepository<Serie, Long>{
 
     @Query("select e FROM Episodio e WHERE e.titulo = :nomeEpisodio")
     List<Optional<Episodio>> buscaEpisodioPorTitulo(String nomeEpisodio);
+
+    //Retorna atraves de um leftjoin ou seja, retorna apenas as series que tem os episodios mais recentes
+    List<Serie> findTop5ByOrderByEpisodiosDataLancamentoDesc();
+
+    //Retorna um inner Join para retornar episodios mais recentes por séries diferentes
+    @Query("SELECT s FROM Serie s " +
+            "JOIN s.episodios e " +
+            "GROUP BY s " +
+            "ORDER BY MAX(e.dataLancamento) DESC LIMIT 5")
+    List<Serie> encontrarEpisodiosMaisRecentes();
+
     
 }
